@@ -70,6 +70,7 @@ app_license = "mit"
 # automatically create page for each record of this doctype
 # website_generators = ["Web Page"]
 
+
 # Jinja
 # ----------
 
@@ -241,4 +242,15 @@ app_license = "mit"
 # default_log_clearing_doctypes = {
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
+website_route_rules = [
+    {'from_route': '/rani', 'to_route': '/customer/customer'},
+    {'from_route': '/user', 'to_route': '/form/form'},
+    {'from_route': '/product', 'to_route': '/product/product'},
+    {'from_route': '/create_blog', 'to_route': '/myblogs/index'},
+    {'from_route': '/blogs', 'to_route': '/myblogs/index'},
+    {'from_route': '/blogs/<route>', 'to_route': '/myblogs/blog_detail'},
+    
+    
 
+    ]
+ 

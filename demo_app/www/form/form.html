@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>User Management</title>
+
+  <!-- Frappe core -->
+  <script src="/assets/frappe/js/frappe.min.js"></script>
+  <!-- Custom JS -->
+  <script src="/assets/my_app/js/user_form.js"></script>
+
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f7f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+
+    .form-card {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+
+    .form-card h2 {
+      margin-bottom: 20px;
+      text-align: center;
+      background: linear-gradient(90deg, #4a90e2, #357ab8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 26px;
+      font-weight: 700;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-sizing: border-box;
+      transition: border 0.3s;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: #4a90e2;
+      outline: none;
+    }
+
+    button {
+      padding: 10px 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    /* Save/Register Button */
+    #submitBtn {
+      margin-top: 20px;
+      background: linear-gradient(90deg, #4a90e2, #357ab8);
+      color: #fff;
+    }
+    #submitBtn:hover {
+      background: linear-gradient(90deg, #357ab8, #2c5ca3);
+    }
+
+    .msg {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 8px;
+      display: none;
+      font-weight: 500;
+    }
+    .msg.success { background:#dff7e3; color:#27ae60; }
+    .msg.error { background:#fbeaea; color:#c0392b; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: #fff;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      border-radius: 12px;
+      overflow: hidden;
+      table-layout: fixed;
+    }
+
+    th, td {
+      padding: 14px;
+      border-bottom: 1px solid #eee;
+      text-align: left;
+      word-wrap: break-word;
+    }
+
+    th {
+      background: #1c3f66;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    tbody tr:hover {
+      background: #e6f0ff;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .action-btn {
+      flex: 1;
+      text-align: center;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      padding: 6px 14px;
+      font-size: 13px;
+      transition: transform 0.2s, background 0.3s;
+    }
+    .action-btn:hover { transform: scale(1.05); }
+
+    .edit-btn { background: #f39c12; color: #fff; }
+    .edit-btn:hover { background: #d68910; }
+
+    .delete-btn { background: #e74c3c; color: #fff; }
+    .delete-btn:hover { background: #c0392b; }
+
+    .table-wrapper { overflow-x: auto; }
+
+    @media (max-width: 600px) {
+      input, textarea, select, button { font-size: 14px; }
+      th, td { font-size: 13px; padding: 10px; }
+      .action-buttons { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Form Section -->
+    <div class="form-card">
+      <h2>User Registration Form</h2>
+      <input type="hidden" id="user_id" value="">
+      <label>Full Name</label>
+      <input id="full_name" type="text"/>
+      <label>Email</label>
+      <input id="email" type="email"/>
+      <label>Phone Number</label>
+      <input id="phone" type="text"/>
+      <label>Date of Birth</label>
+      <input id="dob" type="date"/>
+      <label>Gender</label>
+      <select id="gender">
+        <option value="">Select...</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+      </select>
+      <label>Address</label>
+      <textarea id="address"></textarea>
+      <label>City</label>
+      <input id="city" type="text"/>
+      <label>State</label>
+      <input id="state" type="text"/>
+      <label>Country</label>
+      <input id="country" type="text"/>
+      <button id="submitBtn">Register</button>
+      <div id="feedback" class="msg"></div>
+    </div>
+
+    <!-- Table Section -->
+    <div class="form-card">
+      <h2>Registered Users</h2>
+      <div class="table-wrapper">
+        <table id="userTable">
+          <thead>
+            <tr>
+              <th>Full Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>DOB</th>
+              <th>Gender</th>
+              <th>City</th>
+              <th>State</th>
+              <th>Country</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Rows dynamically added here via JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+
+
+<!-- frappe js -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="/js/frappe-web.min.js"></script>
+  <script src="/js/libs.min.js"></script>
+  <script>
+    window.csrf_token = "{{ frappe.session.csrf_token }}";
+    frappe.csrf_token = window.csrf_token;
+  </script>
+  <script src="form/form.js"></script>
+</body>
+</html>

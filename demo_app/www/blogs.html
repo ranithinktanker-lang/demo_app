@@ -1,0 +1,47 @@
+{% extends "templates/web.html" %}
+
+{% block page_content %}
+<h1>All Published Blogs</h1>
+
+<form method="get" action="/blogs" style="margin-bottom:20px;">
+  <input type="text" name="search" placeholder="Search blogs..." value="{{ frappe.form_dict.search or '' }}">
+  <button type="submit">Search</button>
+</form>
+
+<hr>
+
+{% set search = frappe.form_dict.search %}
+{% if search %}
+  {% set blogs = frappe.get_all(
+      "Blog_Post",
+      filters={"status": "Published", "title": ["like", "%" + search + "%"]},
+      fields=["title", "author", "published_on", "content", "route"],
+      order_by="published_on desc"
+  ) %}
+{% else %}
+  {% set blogs = frappe.get_all(
+      "Blog_Post",
+      filters={"status": "Published"},
+      fields=["title", "author", "published_on", "content", "route"],
+      order_by="published_on desc"
+  ) %}
+{% endif %}
+
+{% if blogs %}
+  <ul>
+    {% for blog in blogs %}
+      <li style="margin-bottom: 25px;">
+        <h3><a href="/blogs/{{ blog.route }}">{{ blog.title }}</a></h3>
+        <p><b>Author:</b> {{ blog.author or 'Unknown' }} | <b>Date:</b> {{ blog.published_on }}</p>
+        <p>{{ (blog.content or '')[:200] }}...</p>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No published blogs found{% if search %} for “{{ search }}”{% endif %}.</p>
+{% endif %}
+{% endblock %}
+
+
+# {"from_route": "/blogs", "to_route": "blogs"},
+    # {"from_route": "/blogs/<route>", "to_route": "blog_detail"},

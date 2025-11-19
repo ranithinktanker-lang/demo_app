@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ blog.title }}</title>
+  <meta name="description" content="{{ blog.title }}">
+  <meta property="og:title" content="{{ blog.title }}">
+  <meta property="og:description" content="{{ blog.content[:150] }}">
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
+    .blog-container { max-width: 800px; margin: auto; }
+    .blog-nav { display: flex; justify-content: space-between; margin-top: 30px; }
+    .blog-nav a { text-decoration: none; color: #007bff; font-weight: bold; }
+    .blog-nav a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="blog-container">
+    <h1>{{ blog.title }}</h1>
+    <p><b>Author:</b> {{ blog.author }}</p>
+    <p><small>Published on: {{ blog.published_on }}</small></p>
+    <hr>
+    <div>
+      {{ blog.content | safe }}
+    </div>
+
+    <div class="blog-nav">
+      <div>
+        {% if previous %}
+          <a href="/blogs/{{ previous.route }}">&laquo; {{ previous.title }}</a>
+        {% endif %}
+      </div>
+      <div>
+        {% if next %}
+          <a href="/blogs/{{ next.route }}">{{ next.title }} &raquo;</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</body>
+</html>

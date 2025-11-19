@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Create Blog</title>
+  <script src="/assets/frappe/dist/frappe-web.bundle.js"></script>
+
+</head>
+<body>
+  <h2>Create New Blog</h2>
+
+  <form id="blogForm">
+    <label>Title:</label><br>
+    <input type="text" id="title" name="title" required><br><br>
+
+    <label>Content:</label><br>
+    <textarea id="content" name="content" rows="5" required></textarea><br><br>
+
+    <label>Author:</label><br>
+    <input type="text" id="author" name="author" required><br><br>
+
+    <label>Status:</label><br>
+    <select id="status" name="status">
+      <option value="Draft">Draft</option>
+      <option value="Published">Published</option>
+    </select><br><br>
+
+    <button type="button" id="saveBlog">Create Blog</button>
+  </form>
+
+  <p id="message"></p>
+
+
+  <hr>
+
+  <h2>Search Published Blogs</h2>
+  <input type="text" id="searchTitle" placeholder="Enter title to search">
+  <button type="button" id="searchBtn">Search</button>
+
+  <div id="blogsContainer"></div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="/js/frappe-web.min.js"></script>
+  <script src="/js/libs.min.js"></script>
+  <script>
+    window.csrf_token = "{{ frappe.session.csrf_token }}";
+    frappe.csrf_token = window.csrf_token;
+  </script>
+
+  <script src="/myblogs/index.js"></script>
+</body>
+</html>
+
+
+
+ 

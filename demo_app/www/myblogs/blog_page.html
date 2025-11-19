@@ -1,0 +1,13 @@
+<h2>{{ blog.title }}</h2>
+<p><b>Author:</b> {{ blog.author }}</p>
+<p>{{ blog.content }}</p>
+<small>Published on: {{ blog.published_on }}</small>
+
+<div style="margin-top:20px;">
+  {% if blog.previous %}
+    <a href="/blogs/{{ blog.previous.route }}">← Previous</a>
+  {% endif %}
+  {% if blog.next %}
+    <a href="/blogs/{{ blog.next.route }}" style="float:right;">Next →</a>
+  {% endif %}
+</div>

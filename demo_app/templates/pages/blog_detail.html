@@ -1,0 +1,66 @@
+{% extends "templates/web.html" %}
+
+{% block page_content %}
+
+{# --- Extract route from URL --- #}
+{% set route_full = frappe.form_dict.route %}
+{% set route_slug = route_full.split("/")[-1].strip().lower() %}
+<!-- {{route_slug}} -->
+{# --- Fetch all published blogs --- #}
+{% set all_blogs = frappe.get_all(
+    "Blog_Post",
+    filters={"status": "Published", "route":route_slug},
+    fields=["title", "content", "author", "published_on", "route"],
+    order_by="published_on asc"
+) %}
+<!-- {{all_blogs}} -->
+{# --- Find the current blog --- #}
+<!-- {% set blog = None %}
+{% for b in all_blogs %}
+{{b}}
+    {% if blog is none and b.route|lower|trim == route_slug %}
+        {% set blog = b %}
+    {% endif %}
+{% endfor %}
+{{blog}} -->
+{% if all_blogs %}
+    <div class="blog-container">
+        <h1 class="blog-title">{{ all_blogs[0].title }}</h1>
+        <p class="blog-meta">
+            <strong>Author:</strong> {{ all_blogs[0].author or "Unknown" }} |
+            <strong>Date:</strong> {{ all_blogs[0].published_on }}
+        </p>
+        <div class="blog-content">
+            {{ all_blogs[0].content | safe }}
+        </div>
+    </div>
+
+    {# --- Previous / Next Navigation --- #}
+    {% set idx_list = all_blogs|map(attribute='route')|map('lower')|list %}
+    {% set idx = idx_list.index(all_blogs[0].route|lower) %}
+
+    <div class="nav-buttons" style="margin-top: 30px; display:flex; justify-content:space-between;">
+        {% if idx > 0 %}
+            {% set prev = all_blogs[idx - 1] %}
+            <a href="/blogs/{{ prev.route }}" class="nav-button prev-button">
+                ← Previous: {{ prev.title }}
+            </a>
+        {% else %}
+            <div></div>
+        {% endif %}
+
+        {% if idx < all_blogs|length - 1 %}
+            {% set next = all_blogs[idx + 1] %}
+            <a href="/blogs/{{ next.route }}" class="nav-button next-button">
+                Next: {{ next.title }} →
+            </a>
+        {% else %}
+            <div></div>
+        {% endif %}
+    </div>
+
+{% else %}
+    <p style="color:red;">Blog not found or not published.</p>
+{% endif %}
+
+{% endblock %}
