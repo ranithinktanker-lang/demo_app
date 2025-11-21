@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Quote</title>
+    <script src="/assets/frappe/js/frappe.min.js"></script>
+    <script src="/quotes/add_quote.js"></script>
+</head>
+<body>
+
+<h2>Add New Quote</h2>
+
+<form id="quote-form">
+    <input type="text" name="title" placeholder="Title" required><br><br>
+    <input type="text" name="author" placeholder="Author" required><br><br>
+    <textarea name="content" placeholder="Quote content" rows="4" required></textarea><br><br>
+    <button type="submit">Add Quote</button>
+</form>
+
+<div id="message"></div>
+<hr>
+
+<h2>Search Quotes</h2>
+
+<input type="text" id="search-title" placeholder="Enter title to search">
+<button id="search-btn">Search</button>
+
+<div id="search-results"></div>
+<!-- frappe js -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="/js/frappe-web.min.js"></script>
+  <script src="/js/libs.min.js"></script>
+  <script>
+    window.csrf_token = "{{ frappe.session.csrf_token }}";
+    frappe.csrf_token = window.csrf_token;
+  </script>
+  <script src="quotes/index.js"></script>
+</body>
+</html>

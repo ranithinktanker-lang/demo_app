@@ -6,7 +6,7 @@ import re
 def slugify(text):
     text = text.lower().strip()
     text = re.sub(r'[\s_]+', '-', text)   
-    text = re.sub(r'[^a-z0-9\-]', '', text)  # remove invalid chars
+    text = re.sub(r'[^a-z0-9\-]', '', text)  
     return text
 
 
