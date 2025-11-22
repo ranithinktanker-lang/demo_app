@@ -34,3 +34,7 @@ def get_context(context):
     context.next = all_blogs[current_index + 1] if current_index < len(all_blogs) - 1 else None
 
     return context
+
+
+
+# nvfdkvfdlvdv
