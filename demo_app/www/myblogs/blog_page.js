@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Extract route from URL
   const routeFull = window.location.pathname.split('/');
-  const blogRoute = routeFull[2]; // /blogs/<route>
+  const blogRoute = routeFull[2]; 
 
   let currentIndex = 0;
   let blogsList = [];
