@@ -250,7 +250,6 @@ website_route_rules = [
     {'from_route': '/blogs', 'to_route': '/myblogs/index'},
     {'from_route': '/blogs/<route>', 'to_route': '/myblogs/blog_detail'},
    
-    {'from_route': '/quotes', 'to_route': '/quotes/index.html'},
-    {'from_route': '/quote_detail/<name>', 'to_route': '/quote_detail/detail.html'}
+    
     ]
  
